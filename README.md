@@ -1,7 +1,7 @@
-# Window AC Web Control
-Arduino-Uno-based Window Air Conditioner with Web Control for Infrared-Controlled ACs
+# Window AC Web API
+Arduino-Uno-based Window Air Conditioner Web API for Infrared-Controlled ACs
 
-This project uses a simple Arduino circuit and web server to allow you to control your "dumb" Window Air Conditioning units remotely. 
+This project uses a simple Arduino circuit and web server to allow you to control your "dumb" Window Air Conditioning units remotely using a Web API.
 
 **NOTE: This does not currently include any kind of webpage or other UI for control, just the web API queries**
 
