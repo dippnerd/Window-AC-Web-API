@@ -12,8 +12,10 @@ While there are devices you can buy that can send signals to these Window AC uni
 
 The end goal for me personally is to not only have a web-controlled AC, but to also integrate it with Apple HomeKit via the Homebridge software using a custom plugin. The idea here is I can present each room's AC as its own thermostat in HomeKit, then I can change the standard thermostat settings like Off/Auto/Cool (mapped to Off/Auto Eco/Cool on the AC) as well as change the temperature, all from one standard interface. Not only will this give me remote control of my AC even outside of my house, but it will also allow me to tie it into HomeKit automations for scenarios like when no one is home, turn off the AC, or as I approach home, turn it on Cool and set the temperature low to begin cooling the house, then after X minutes, set it to Auto at a higher temp. 
 
-### Circuit
+### Hardware
 While I am working on some advanced circuit ideas, this is a good place to start. It requires no soldering or even a great understanding of electronics, you just need the NodeMCU, a compatible IR LED (I used 940nm wavelength) and some dupont wires. Just plug the positive leg of the LED to a GPIO pin and the other leg to ground. I recommend using a decent length of wire so you can just tape the LED to your AC and put the NodeMCU somewhere out of the way. That's all there is to the circuit! The next section will cover what changes are necessary in the code.
+
+I've also been testing an advanced circuit that includes photoresistors attached to the LEDs on the AC unit as a means to track mode and power status. It's a bit experimental for now, but I'll try to update this later with more details.
 
 ### Code
 At the most basic level, you can simply enter your wifi SSID/Password to get running, but more than likely you're not using th exact same model of AC unit as me (Haier HWR05XCM-L) and need to at least update your IR codes, potentially other settings too. Below we'll cover what things (may) need changed:
