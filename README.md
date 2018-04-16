@@ -13,7 +13,9 @@ While there are devices you can buy that can send signals to these Window AC uni
 The end goal for me personally is to not only have a web-controlled AC, but to also integrate it with Apple HomeKit via the Homebridge software using a custom plugin. The idea here is I can present each room's AC as its own thermostat in HomeKit, then I can change the standard thermostat settings like Off/Auto/Cool (mapped to Off/Auto Eco/Cool on the AC) as well as change the temperature, all from one standard interface. Not only will this give me remote control of my AC even outside of my house, but it will also allow me to tie it into HomeKit automations for scenarios like when no one is home, turn off the AC, or as I approach home, turn it on Cool and set the temperature low to begin cooling the house, then after X minutes, set it to Auto at a higher temp. 
 
 ### Hardware
-While I am working on some advanced circuit ideas, this is a good place to start. It requires no soldering or even a great understanding of electronics, you just need the NodeMCU, a compatible IR LED (I used 940nm wavelength) and some dupont wires. Just plug the positive leg of the LED to a GPIO pin and the other leg to ground. I recommend using a decent length of wire so you can just tape the LED to your AC and put the NodeMCU somewhere out of the way. That's all there is to the circuit! The next section will cover what changes are necessary in the code.
+While I am working on some advanced circuit ideas, this is a good place to start. It requires no soldering or even a great understanding of electronics, you just need the NodeMCU, a compatible IR LED (I used 940nm wavelength) and some dupont wires. Just plug the positive leg of the LED to a GPIO pin and the other leg to ground. I recommend using a decent length of wire so you can just tape the LED to your AC and put the NodeMCU somewhere out of the way. That's all there is to the circuit! 
+
+If you're anything like me, you won't be satisfied with that alone, so you may want to go the next steps and solder things together. In my complete write-up I'll cover how I ultimately integrated the NodeMCU into my AC so it doesn't have wires sticking out etc. 
 
 I've also been testing an advanced circuit that includes photoresistors attached to the LEDs on the AC unit as a means to track mode and power status. It's a bit experimental for now, but I'll try to update this later with more details.
 
@@ -75,11 +77,8 @@ The "10.10.10.10" should be different for yours, that is the IP address for the 
 This takes no action, but returns JSON data about the current status of the unit, as such:
 ```
 {
-  "Status": {
-    "Temperature": 72,
-    "Power": "1",
-    "Mode": "auto"
-  }
+  "Temperature": 72,
+  "State": 0
 }
 ```
 This tells us that the AC is set to 72F, the power is On (1=On, 0=Off) and the mode is set to "auto". 
@@ -88,6 +87,6 @@ This tells us that the AC is set to 72F, the power is On (1=On, 0=Off) and the m
 
 ```/power``` This toggles the power on/off (remember, it can only assume state based on what it already knows)
 
-```/mode/cool``` This changes the mode. It supports "cool" and "auto" as modes, which toggles between "Cool" and "Energy Saver" on my unit
+```/state/2``` This changes the mode. It supports 0 for "Off", 2 for "cool" and 3 for "auto" as states, which toggles between "Off", "Cool" and "Energy Saver" on my unit
 
 Each of these will take action and then return the JSON status to confirm the changes. 
